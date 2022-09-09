@@ -85,7 +85,7 @@ class TweetController extends Controller
      */
     public function edit($id)
     {
-        //
+        // ddd($id);
         $tweet = Tweet::find($id);
         return view('tweet.edit', compact('tweet'));
     } // やってることは create() 関数と同様
@@ -99,7 +99,7 @@ class TweetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // ddd($request, $id);
         //バリデーション
         $validator = Validator::make($request->all(), [
             'tweet' => 'required | max:191',
@@ -113,6 +113,7 @@ class TweetController extends Controller
                 ->withErrors($validator);
         }
         //データ更新処理
+        // ddd($result);
         $result = Tweet::find($id)->update($request->all());
         return redirect()->route('tweet.index');
     }
