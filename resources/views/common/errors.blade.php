@@ -1,6 +1,6 @@
 @if (count($errors) > 0)
 <div>
-    <div class="font-medium text-red-600">
+    <div class="font-medium text-red-600"> <!-- TailWind CSSでスタイルを指定している -->
         {{ __('Whoops! Something went wrong.') }}
     </div>
 
