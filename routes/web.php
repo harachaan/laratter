@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('tweet/{tweet}/unfavorites', [FavoriteController::class, 'destroy'])->name('unfavorites');
 
     Route::get('/tweet/mypage', [TweetController::class, 'mydata'])->name('tweet.mypage');
+    // ユーザページの作成
+    Route::get('user/{user}', [FollowController::class, 'show'])->name('follow.show');
+    // timeline
+    Route::get('/tweet/timeline', [TweetController::class, 'timeline'])->name('tweet.timeline');
+    // 検索画面
+    Route::get('/tweet/search/input', [SearchController::class, 'create'])->name('search.input');
+    // 検索処理
+    Route::get('/tweet/search/result', [SearchController::class, 'index'])->name('search.result');
+    // resourceは一番下に持ってくる！tweetのルートに反映される前に/tweetのurlに飛んじゃうから．．
     Route::resource('tweet', TweetController::class);
 });
 
