@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 // 2行追加
 use Validator;
 use App\Models\Tweet;
+use Auth;
+use App\Models\User;
 
 class TweetController extends Controller
 {
@@ -57,7 +59,11 @@ class TweetController extends Controller
         }
         // create()は最初から用意されている関数
         // 戻り値は挿入されたレコードの情報
-        $result = Tweet::create($request->all());
+        $data = $request->merge(['user_id' => Auth::user()->id])->all();
+        $result = Tweet::create($data);
+
+        // $result = Tweet::create($request->all());
+        
         // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
         return redirect()->route('tweet.index');
     }
@@ -130,4 +136,30 @@ class TweetController extends Controller
         $result = Tweet::find($id)->delete();
         return redirect()->route('tweet.index');
     }
+
+    public function mydata()
+    {
+        // Userモデルに定義したリレーションを使用してデータを取得する．
+        $tweets = User::query()
+        ->find(Auth::user()->id)
+        ->userTweets()
+        ->orderBy('created_at','desc')
+        ->get();
+        return view('tweet.index', compact('tweets'));
+    }
+    public function timeline()
+    {
+    // フォローしているユーザを取得する
+        $followings = User::find(Auth::id())->followings->pluck('id')->all();
+    // 自分とフォローしている人が投稿したツイートを取得する
+        $tweets = Tweet::query()
+        ->where('user_id', Auth::id())
+        ->orWhereIn('user_id', $followings)
+        ->orderBy('updated_at', 'desc')
+        ->get();
+        // dd($tweets);
+        return view('tweet.index', compact('tweets'));
+    }
 }
+
+
