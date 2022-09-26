@@ -28,6 +28,7 @@
                     <a href="{{ route('follow.show', $tweet->user->id) }}">
                       <p class="text-left text-grey-dark">{{$tweet->user->name}}</p>
                     </a>
+
                     <!-- follow 状態で条件分岐 -->
                     @if(Auth::user()->followings()->where('users.id', $tweet->user->id)->exists())
                     <!-- unfollow ボタン -->
@@ -60,6 +61,15 @@
                   </a>
 
                   <div class="flex">
+                    <!-- コメントボタン -->
+                    <form action="{{ route('comment.create',$tweet->id) }}" method="GET" class="text-left">
+                      @csrf
+                      <button type="submit" class="mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-white py-1 px-2 focus:outline-none focus:shadow-outline">
+                        <svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="black">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                      </button>
+                    </form>
                     <!-- favorite 状態で条件分岐 -->
                     @if($tweet->users()->where('user_id', Auth::id())->exists())
                     <!-- unfavorite ボタン -->

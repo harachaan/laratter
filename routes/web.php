@@ -5,6 +5,7 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,14 @@ use App\Http\Controllers\SearchController;
 */
 Route::group(['middleware' => 'auth'], function(){
     // ここに書いたものはログインしないと使えなくなる？
+    // コメント機能をつけたい
+    Route::get('tweet/{tweet}/{user}/comment/create', [CommentController::class, 'create'])->name('comment.create');
+    Route::post('tweet/{tweet}/{user}/comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('tweet/{tweet}/{user}/comment', [CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::get('tweet/{tweet}/comment', [CommentController::class, 'index'])->name('comment.index');
+    // コメントはtweet詳細画面に表示させたい 
+    // Route::get('tweet/{tweet}/comment', [CommentController::class, 'show'])->name('comment.show');
+    
     Route::post('user/{user}/follow', [FollowController::class, 'store'])->name('follow');
     Route::post('user/{user}/unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 

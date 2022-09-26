@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Comment;
+use App\Models\Tweet;
 use Auth;
 
-class FollowController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +17,8 @@ class FollowController extends Controller
     public function index()
     {
         //
+        $comments = Comment::getAllOrderByUpdated_at();
+        return view('tweet.show', compact('comments'));
     }
 
     /**
@@ -25,7 +28,8 @@ class FollowController extends Controller
      */
     public function create()
     {
-        //
+        // commentディレクトリの中のcreate.vlade.phpを示している．
+        return view('comment.create');
     }
 
     /**
@@ -34,10 +38,27 @@ class FollowController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user)
+    public function store(Request $request)
     {
-        Auth::user()->followings()->attach($user->id);
-        return redirect()->back();
+        //　いったんバリデーションは置いとく..やっぱやる
+        // バリデーション
+        $validator = Validator::make($request->all(), [
+            'comment' => 'required',
+        ]);
+        // バリデーション:エラー
+        if ($validator->fails()) {
+            return redirect()
+            ->route('comment.create')
+            ->withInput()
+            ->withErrors($validator);
+        }
+
+        // $data = $comment->merge(['user_id' => Auth::user()->id])->all();
+        // $result = Comment::create($data);
+        $result = Comment::create($request->all());
+
+        // ddd($result);
+        return redirect()->route('tweet.show');
     }
 
     /**
@@ -48,14 +69,7 @@ class FollowController extends Controller
      */
     public function show($id)
     {
-        // ターゲットユーザのデータ
-        $user = User::find($id);
-        // ターゲットユーザのフォロワー一覧
-        $followers = $user->followers;
-        // ターゲットユーザのフォローしている人一覧
-        $followings  = $user->followings;
-        // views/user/shows.blade.phpをuser.showで表している．
-        return view('user.show', compact('user', 'followers', 'followings'));
+        //
     }
 
     /**
@@ -87,9 +101,10 @@ class FollowController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        Auth::user()->followings()->detach($user->id);
-        return redirect()->back();
+        // ddd($id);
+        $result = Comment::find($id)->delete();
+        return redirect()->route('tweet.show');
     }
 }
