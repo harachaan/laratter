@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // 忘れないように注意
 use App\Models\Tweet;
+use App\Models\Comment;
 use Validator;
 
 
@@ -42,10 +43,12 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        // ddd($request);
         // バリデーション
         $validator = Validator::make($request->all(), [
             'comment' => 'required',
         ]);
+        
         // バリデーション:エラー
         if ($validator->fails()) {
             return redirect()
@@ -54,7 +57,10 @@ class CommentController extends Controller
             ->withErrors($validator);
         }
         // ここよくわかってない
-        // $result = Comment::create($request->all());
+        // create()はデータベース(今回はCommentテーブル)にデータを追加するメソッド
+        // ddd($request->tweet_id);
+        // $result = Comment::create($request->all()); // $requestの中にはcreate.bladeのformタグの中のid=comment, tweet_idが入ってる
+        // return redirect()->route('tweet.show', $request->tweet_id);
     }
 
     /**
