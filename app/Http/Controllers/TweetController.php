@@ -19,8 +19,11 @@ class TweetController extends Controller
      */
     public function index()
     {
-        // 編集
-        $tweets = Tweet::getAllOrderByUpdated_at();
+        // ページネーション追加
+        
+
+        // $tweets = Tweet::getAllOrderByUpdated_at()->paginate(10);
+        $tweets = Tweet::query()->orderByDesc('updated_at')->paginate(5);
         return view('tweet.index', compact('tweets'));
     }
 

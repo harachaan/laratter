@@ -121,6 +121,7 @@
               @endforeach
             </tbody>
           </table>
+          {{ $tweets->links() }}
         </div>
       </div>
     </div>
