@@ -40,7 +40,8 @@
             <div class="flex flex-col mb-4">
               <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">updated_at</p>
               <p class="py-2 px-3 text-grey-darkest" id="updated_at">
-                {{$comment->comment}}
+                {{$tweet->comment}}
+                <!-- {{$comment->comment}} ここがよくわかってない -->
               </p>
             </div>
 

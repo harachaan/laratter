@@ -17,7 +17,7 @@ class CommentController extends Controller
     public function index()
     {
         //
-        $comments = Comment::getAllOrderByUpdated_at();
+        $comments = [];//Comment::getAllOrderByUpdated_at();
         return view('tweet.show', compact('comments'));
     }
 
@@ -28,7 +28,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        // commentディレクトリの中のcreate.vlade.phpを示している．
+        // commentディレクトリの中のcreate.blade.phpを示している．
         return view('comment.create');
     }
 
@@ -55,7 +55,7 @@ class CommentController extends Controller
 
         // $data = $comment->merge(['user_id' => Auth::user()->id])->all();
         // $result = Comment::create($data);
-        $result = Comment::create($request->all());
+        $result = Comment::create($request->id);
 
         // ddd($result);
         return redirect()->route('tweet.show');
