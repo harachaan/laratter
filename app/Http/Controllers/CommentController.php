@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+// 忘れないように注意
+use App\Models\Tweet;
 
 class CommentController extends Controller
 {
@@ -13,7 +15,9 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::getAllOrderByUpdated_at();
+        ddd($comments);
+        return view('comment.index', compact('comments'));
     }
 
     /**
@@ -21,10 +25,12 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
-        return view('comment.create');
+        $tweet = Tweet::find($id);
+        // ddd($tweet);
+        return view('comment.create', compact('tweet'));
     }
 
     /**
@@ -33,17 +39,16 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         // バリデーション
         $validator = Validator::make($request->all(), [
-            'tweet' => 'required | max:191',
-            'description' => 'required',
+            'comment' => 'required',
         ]);
         // バリデーション:エラー
         if ($validator->fails()) {
             return redirect()
-            ->route('tweet.create')
+            ->route('comment.create', $id)
             ->withInput()
             ->withErrors($validator);
         }

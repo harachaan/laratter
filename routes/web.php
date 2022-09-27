@@ -19,6 +19,7 @@ use App\Http\Controllers\CommentController;
 */
 Route::group(['middleware' => 'auth'], function(){
     // ここに書いたものはログインしないと使えなくなる？
+    Route::get('tweet/{tweet}/comment/index', [CommentController::class, 'index'])->name('comment.index');
     Route::post('tweet/{tweet}/comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('tweet/{tweet}/comment', [CommentController::class, 'create'])->name('comment.create');
 
