@@ -19,7 +19,8 @@
               <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="comment">comment</label>
               {{-- <input class="border py-2 px-3 text-grey-darkest" type="text" name="comment" id="comment" value="{{$tweet->tweet}}"> --}}
               <input class="border py-2 px-3 text-grey-darkest" type="text" name="comment" id="comment">
-              <input class="border py-2 px-3 text-grey-darkest"type="hidden" id="tweet_id" value="{{ $tweet->id }}">
+              {{-- nameがすごく大事 --}}
+              <input class="border py-2 px-3 text-grey-darkest" type="hidden" name="tweet_id" id="tweet_id" value="{{ $tweet->id }}">
             </div>
             
             <div class="flex justify-evenly">

@@ -18,8 +18,5 @@ class Comment extends Model
     {
         return self::orderBy('updated_at', 'desc')->get();
     }
-    public function tweet()
-    {
-        return $this->belongsTo(Tweet::class, "id", "tweet_id");
-    }
+    
 }

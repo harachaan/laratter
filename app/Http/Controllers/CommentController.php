@@ -59,8 +59,8 @@ class CommentController extends Controller
         // ここよくわかってない
         // create()はデータベース(今回はCommentテーブル)にデータを追加するメソッド
         // ddd($request->tweet_id);
-        // $result = Comment::create($request->all()); // $requestの中にはcreate.bladeのformタグの中のid=comment, tweet_idが入ってる
-        // return redirect()->route('tweet.show', $request->tweet_id);
+        $result = Comment::create($request->all()); // $requestの中にはcreate.bladeのformタグの中のid=comment, tweet_idが入ってる
+        return redirect()->route('tweet.show', $request->tweet_id);
     }
 
     /**
@@ -107,4 +107,5 @@ class CommentController extends Controller
     {
         //
     }
+    
 }

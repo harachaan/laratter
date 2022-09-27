@@ -9,6 +9,7 @@ use Validator;
 use App\Models\Tweet;
 use Auth;
 use App\Models\User;
+use App\Models\Comment;
 
 class TweetController extends Controller
 {
@@ -79,9 +80,14 @@ class TweetController extends Controller
      */
     public function show($id)
     {
+        // tweetのデータ
         $tweet = Tweet::find($id);
+        // このtweetのcommentsのデータ
+        // $comments = $tweet->comments;
+        $comments = Comment::all()->whereIn("tweet_id", [$id]);
+        // ddd($comments);
         // ddd($tweet);
-        return view('tweet.show', compact('tweet'));
+        return view('tweet.show', compact('tweet', 'comments'));
     }
 
     /**
