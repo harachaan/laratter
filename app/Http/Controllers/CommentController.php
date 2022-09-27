@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // 忘れないように注意
 use App\Models\Tweet;
+use Validator;
+
 
 class CommentController extends Controller
 {
@@ -27,7 +29,6 @@ class CommentController extends Controller
      */
     public function create($id)
     {
-        //
         $tweet = Tweet::find($id);
         // ddd($tweet);
         return view('comment.create', compact('tweet'));
@@ -48,12 +49,12 @@ class CommentController extends Controller
         // バリデーション:エラー
         if ($validator->fails()) {
             return redirect()
-            ->route('comment.create')
+            ->route('comment.create', $request->tweet_id)
             ->withInput()
             ->withErrors($validator);
         }
         // ここよくわかってない
-        $result = Comment::create($request->all());
+        // $result = Comment::create($request->all());
     }
 
     /**
