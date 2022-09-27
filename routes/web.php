@@ -5,6 +5,7 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ use App\Http\Controllers\SearchController;
 */
 Route::group(['middleware' => 'auth'], function(){
     // ここに書いたものはログインしないと使えなくなる？
+    Route::post('tweet/{tweet}/comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::get('tweet/{tweet}/comment', [CommentController::class, 'create'])->name('comment.create');
+
     Route::post('user/{user}/follow', [FollowController::class, 'store'])->name('follow');
     Route::post('user/{user}/unfollow', [FollowController::class, 'destroy'])->name('unfollow');
 
