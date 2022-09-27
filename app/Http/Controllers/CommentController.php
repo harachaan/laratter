@@ -39,7 +39,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         // バリデーション
         $validator = Validator::make($request->all(), [
@@ -48,7 +48,7 @@ class CommentController extends Controller
         // バリデーション:エラー
         if ($validator->fails()) {
             return redirect()
-            ->route('comment.create', $id)
+            ->route('comment.create')
             ->withInput()
             ->withErrors($validator);
         }
